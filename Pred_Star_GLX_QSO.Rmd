@@ -37,6 +37,18 @@ During our data exploratory analysis we will be explaining the features as they 
 The url can be found here: https://www.kaggle.com/lucidlenn/sloan-digital-sky-survey/version/1
 
 ### 2.2 Libraries used  
+```{r packages, message = FALSE}
+if(!require(tidyverse)) install.packages("tidyverse", repos = "http://cran.us.r-project.org")
+if(!require(caret)) install.packages("caret", repos = "http://cran.us.r-project.org")
+if(!require(data.table)) install.packages("data.table", repos = "http://cran.us.r-project.org")
+if(!require(ggplot2)) install.packages("ggplot2", repos = "http://cran.us.r-project.org")
+if(!require(ggcorrplot)) install.packages("ggcorrplot", repos = "http://cran.us.r-project.org")
+if(!require(RSNNS)) install.packages("RSNNS", repos = "http://cran.us.r-project.org")
+if(!require(randomForest)) install.packages("randomForest", repos = "http://cran.us.r-project.org")
+if(!require(kernlab)) install.packages("kernlab", repos = "http://cran.us.r-project.org")
+if(!require(cowplot)) install.packages("cowplot", repos = "http://cran.us.r-project.org")
+```
+
 ```{r libraries, message = FALSE}
 library(tidyverse)
 library(data.table)

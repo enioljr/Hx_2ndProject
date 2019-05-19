@@ -41,6 +41,23 @@ The url can be found here: https://www.kaggle.com/lucidlenn/sloan-digital-sky-su
 ### 2.2 Libraries used  
 
 ```r
+if(!require(tidyverse)) install.packages("tidyverse", repos = "http://cran.us.r-project.org")
+if(!require(caret)) install.packages("caret", repos = "http://cran.us.r-project.org")
+if(!require(data.table)) install.packages("data.table", repos = "http://cran.us.r-project.org")
+if(!require(ggplot2)) install.packages("ggplot2", repos = "http://cran.us.r-project.org")
+if(!require(ggcorrplot)) install.packages("ggcorrplot", repos = "http://cran.us.r-project.org")
+if(!require(RSNNS)) install.packages("RSNNS", repos = "http://cran.us.r-project.org")
+if(!require(randomForest)) install.packages("randomForest", repos = "http://cran.us.r-project.org")
+if(!require(kernlab)) install.packages("kernlab", repos = "http://cran.us.r-project.org")
+if(!require(cowplot)) install.packages("cowplot", repos = "http://cran.us.r-project.org")
+```
+
+```
+## Warning: package 'cowplot' was built under R version 3.5.2
+```
+
+
+```r
 library(tidyverse)
 library(data.table)
 library(caret)
@@ -51,10 +68,6 @@ library(randomForest)
 library(ggcorrplot)
 library(kernlab)
 library(cowplot)
-```
-
-```
-## Warning: package 'cowplot' was built under R version 3.5.2
 ```
 
 ## 3 Load The Data
@@ -84,24 +97,24 @@ str(sky.train)
 
 ```
 ## Classes 'data.table' and 'data.frame':	8001 obs. of  18 variables:
-##  $ objid    :integer64 1237648704577142822 1237648704577208477 1237648704577273907 1237648704577273909 1237648704577273970 1237648704577274016 1237648704577339400 1237648704577339546 ... 
+##  $ objid    :integer64 1237648704577142859 1237648704577273907 1237648704577273970 1237648704577273992 1237648704577274016 1237648704577339400 1237648704577339546 1237648704577339553 ... 
 ##  $ ra       : num  184 184 184 184 184 ...
-##  $ dec      : num  0.0897 0.1262 0.0499 0.1026 0.1737 ...
-##  $ u        : num  19.5 19.4 17.8 17.6 19.4 ...
-##  $ g        : num  17 18.2 16.6 16.3 18.5 ...
-##  $ r        : num  15.9 17.5 16.2 16.4 18.2 ...
-##  $ i        : num  15.5 17.1 16 16.6 18 ...
-##  $ z        : num  15.2 16.8 15.9 16.6 18 ...
+##  $ dec      : num  0.1353 0.0499 0.1737 0.0192 0.1875 ...
+##  $ u        : num  18.7 17.8 19.4 19.4 19 ...
+##  $ g        : num  17.2 16.6 18.5 17.9 17.8 ...
+##  $ r        : num  16.7 16.2 18.2 17.1 17.4 ...
+##  $ i        : num  16.5 16 18 16.7 17.2 ...
+##  $ z        : num  16.4 15.9 18 16.4 17.1 ...
 ##  $ run      : int  752 752 752 752 752 752 752 752 752 752 ...
 ##  $ rerun    : int  301 301 301 301 301 301 301 301 301 301 ...
 ##  $ camcol   : int  4 4 4 4 4 4 4 4 4 4 ...
-##  $ field    : int  267 268 269 269 269 269 270 270 270 271 ...
-##  $ specobjid: chr  "3722360139651588096" "323274319570429952" "3722365362331820032" "3722365912087633920" ...
-##  $ class    : chr  "STAR" "GALAXY" "STAR" "STAR" ...
-##  $ redshift : num  -8.96e-06 1.23e-01 -1.11e-04 5.90e-04 3.15e-04 ...
-##  $ plate    : int  3306 287 3306 3306 324 3306 323 288 3306 3306 ...
-##  $ mjd      : int  54922 52023 54922 54922 51666 54922 51615 52000 54922 54922 ...
-##  $ fiberid  : int  491 513 510 512 594 515 595 400 506 544 ...
+##  $ field    : int  267 269 269 269 269 270 270 270 271 271 ...
+##  $ specobjid: chr  "363814405953054720" "3722365362331820032" "364954875244603392" "323286963954149376" ...
+##  $ class    : chr  "STAR" "STAR" "STAR" "GALAXY" ...
+##  $ redshift : num  -5.49e-05 -1.11e-04 3.15e-04 1.00e-01 3.15e-04 ...
+##  $ plate    : int  323 3306 324 287 3306 323 288 3306 3306 3306 ...
+##  $ mjd      : int  51615 54922 51666 52023 54922 51615 52000 54922 54922 54922 ...
+##  $ fiberid  : int  541 510 594 559 515 595 400 506 547 546 ...
 ##  - attr(*, ".internal.selfref")=<externalptr>
 ```
 
@@ -111,40 +124,40 @@ summary(sky.train)
 
 ```
 ##      objid                           ra               dec         
-##  Min.   :1237646798138245746   Min.   :  8.235   Min.   :-5.3788  
-##  1st Qu.:1237648705652326512   1st Qu.:157.057   1st Qu.:-0.5261  
-##  Median :1237648722296111157   Median :180.312   Median : 0.4150  
-##  Mean   :1237649701292874031   Mean   :175.444   Mean   :15.0368  
-##  3rd Qu.:1237651191890509846   3rd Qu.:201.704   3rd Qu.:37.2457  
-##  Max.   :1237651540334280888   Max.   :260.851   Max.   :68.5406  
+##  Min.   :1237646798137852371   Min.   :  8.235   Min.   :-5.3826  
+##  1st Qu.:1237648705652129817   1st Qu.:157.348   1st Qu.:-0.5486  
+##  Median :1237648722294341764   Median :180.491   Median : 0.3869  
+##  Mean   :1237649689210512330   Mean   :175.418   Mean   :14.7823  
+##  3rd Qu.:1237651190821290109   3rd Qu.:201.511   3rd Qu.:34.9444  
+##  Max.   :1237651540334280888   Max.   :260.884   Max.   :68.5423  
 ##        u               g               r               i        
 ##  Min.   :12.99   Min.   :12.80   Min.   :12.43   Min.   :11.95  
-##  1st Qu.:18.17   1st Qu.:16.80   1st Qu.:16.17   1st Qu.:15.85  
-##  Median :18.85   Median :17.49   Median :16.86   Median :16.56  
-##  Mean   :18.61   Mean   :17.37   Mean   :16.84   Mean   :16.58  
-##  3rd Qu.:19.26   3rd Qu.:18.01   3rd Qu.:17.52   3rd Qu.:17.26  
+##  1st Qu.:18.18   1st Qu.:16.81   1st Qu.:16.17   1st Qu.:15.85  
+##  Median :18.85   Median :17.49   Median :16.86   Median :16.55  
+##  Mean   :18.62   Mean   :17.37   Mean   :16.84   Mean   :16.58  
+##  3rd Qu.:19.26   3rd Qu.:18.01   3rd Qu.:17.51   3rd Qu.:17.26  
 ##  Max.   :19.60   Max.   :19.74   Max.   :24.80   Max.   :28.18  
-##        z              run             rerun         camcol     
-##  Min.   :11.61   Min.   : 308.0   Min.   :301   Min.   :1.000  
-##  1st Qu.:15.62   1st Qu.: 752.0   1st Qu.:301   1st Qu.:2.000  
-##  Median :16.39   Median : 756.0   Median :301   Median :4.000  
-##  Mean   :16.42   Mean   : 984.1   Mean   :301   Mean   :3.667  
-##  3rd Qu.:17.14   3rd Qu.:1331.0   3rd Qu.:301   3rd Qu.:5.000  
-##  Max.   :22.83   Max.   :1412.0   Max.   :301   Max.   :6.000  
+##        z              run             rerun         camcol    
+##  Min.   :11.61   Min.   : 308.0   Min.   :301   Min.   :1.00  
+##  1st Qu.:15.62   1st Qu.: 752.0   1st Qu.:301   1st Qu.:2.00  
+##  Median :16.39   Median : 756.0   Median :301   Median :4.00  
+##  Mean   :16.42   Mean   : 981.3   Mean   :301   Mean   :3.63  
+##  3rd Qu.:17.15   3rd Qu.:1331.0   3rd Qu.:301   3rd Qu.:5.00  
+##  Max.   :22.83   Max.   :1412.0   Max.   :301   Max.   :6.00  
 ##      field        specobjid            class              redshift        
 ##  Min.   : 11.0   Length:8001        Length:8001        Min.   :-0.004136  
-##  1st Qu.:183.0   Class :character   Class :character   1st Qu.: 0.000079  
-##  Median :298.0   Mode  :character   Mode  :character   Median : 0.042671  
-##  Mean   :301.1                                         Mean   : 0.143781  
-##  3rd Qu.:411.0                                         3rd Qu.: 0.092037  
+##  1st Qu.:184.0   Class :character   Class :character   1st Qu.: 0.000082  
+##  Median :298.0   Mode  :character   Mode  :character   Median : 0.042371  
+##  Mean   :302.4                                         Mean   : 0.142588  
+##  3rd Qu.:415.0                                         3rd Qu.: 0.092275  
 ##  Max.   :768.0                                         Max.   : 5.353854  
-##      plate           mjd           fiberid      
-##  Min.   : 266   Min.   :51578   Min.   :   1.0  
-##  1st Qu.: 301   1st Qu.:51900   1st Qu.: 191.0  
-##  Median : 441   Median :51997   Median : 354.0  
-##  Mean   :1453   Mean   :52936   Mean   : 355.4  
-##  3rd Qu.:2559   3rd Qu.:54468   3rd Qu.: 512.0  
-##  Max.   :8410   Max.   :57481   Max.   :1000.0
+##      plate           mjd           fiberid     
+##  Min.   : 266   Min.   :51578   Min.   :  1.0  
+##  1st Qu.: 301   1st Qu.:51900   1st Qu.:184.0  
+##  Median : 442   Median :51999   Median :348.0  
+##  Mean   :1465   Mean   :52949   Mean   :351.6  
+##  3rd Qu.:2559   3rd Qu.:54468   3rd Qu.:510.0  
+##  Max.   :8410   Max.   :57481   Max.   :998.0
 ```
 
 ```r
@@ -226,40 +239,40 @@ summary(sky.train)
 
 ```
 ##      objid                           ra               dec         
-##  Min.   :1237646798138245746   Min.   :  8.235   Min.   :-5.3788  
-##  1st Qu.:1237648705652326512   1st Qu.:157.057   1st Qu.:-0.5261  
-##  Median :1237648722296111157   Median :180.312   Median : 0.4150  
-##  Mean   :1237649701292874031   Mean   :175.444   Mean   :15.0368  
-##  3rd Qu.:1237651191890509846   3rd Qu.:201.704   3rd Qu.:37.2457  
-##  Max.   :1237651540334280888   Max.   :260.851   Max.   :68.5406  
+##  Min.   :1237646798137852371   Min.   :  8.235   Min.   :-5.3826  
+##  1st Qu.:1237648705652129817   1st Qu.:157.348   1st Qu.:-0.5486  
+##  Median :1237648722294341764   Median :180.491   Median : 0.3869  
+##  Mean   :1237649689210512330   Mean   :175.418   Mean   :14.7823  
+##  3rd Qu.:1237651190821290109   3rd Qu.:201.511   3rd Qu.:34.9444  
+##  Max.   :1237651540334280888   Max.   :260.884   Max.   :68.5423  
 ##        u               g               r               i        
 ##  Min.   :12.99   Min.   :12.80   Min.   :12.43   Min.   :11.95  
-##  1st Qu.:18.17   1st Qu.:16.80   1st Qu.:16.17   1st Qu.:15.85  
-##  Median :18.85   Median :17.49   Median :16.86   Median :16.56  
-##  Mean   :18.61   Mean   :17.37   Mean   :16.84   Mean   :16.58  
-##  3rd Qu.:19.26   3rd Qu.:18.01   3rd Qu.:17.52   3rd Qu.:17.26  
+##  1st Qu.:18.18   1st Qu.:16.81   1st Qu.:16.17   1st Qu.:15.85  
+##  Median :18.85   Median :17.49   Median :16.86   Median :16.55  
+##  Mean   :18.62   Mean   :17.37   Mean   :16.84   Mean   :16.58  
+##  3rd Qu.:19.26   3rd Qu.:18.01   3rd Qu.:17.51   3rd Qu.:17.26  
 ##  Max.   :19.60   Max.   :19.74   Max.   :24.80   Max.   :28.18  
-##        z              run             rerun         camcol     
-##  Min.   :11.61   Min.   : 308.0   Min.   :301   Min.   :1.000  
-##  1st Qu.:15.62   1st Qu.: 752.0   1st Qu.:301   1st Qu.:2.000  
-##  Median :16.39   Median : 756.0   Median :301   Median :4.000  
-##  Mean   :16.42   Mean   : 984.1   Mean   :301   Mean   :3.667  
-##  3rd Qu.:17.14   3rd Qu.:1331.0   3rd Qu.:301   3rd Qu.:5.000  
-##  Max.   :22.83   Max.   :1412.0   Max.   :301   Max.   :6.000  
+##        z              run             rerun         camcol    
+##  Min.   :11.61   Min.   : 308.0   Min.   :301   Min.   :1.00  
+##  1st Qu.:15.62   1st Qu.: 752.0   1st Qu.:301   1st Qu.:2.00  
+##  Median :16.39   Median : 756.0   Median :301   Median :4.00  
+##  Mean   :16.42   Mean   : 981.3   Mean   :301   Mean   :3.63  
+##  3rd Qu.:17.15   3rd Qu.:1331.0   3rd Qu.:301   3rd Qu.:5.00  
+##  Max.   :22.83   Max.   :1412.0   Max.   :301   Max.   :6.00  
 ##      field        specobjid            class         redshift        
 ##  Min.   : 11.0   Length:8001        GALAXY:3999   Min.   :-0.004136  
-##  1st Qu.:183.0   Class :character   QSO   : 680   1st Qu.: 0.000079  
-##  Median :298.0   Mode  :character   STAR  :3322   Median : 0.042671  
-##  Mean   :301.1                                    Mean   : 0.143781  
-##  3rd Qu.:411.0                                    3rd Qu.: 0.092037  
+##  1st Qu.:184.0   Class :character   QSO   : 680   1st Qu.: 0.000082  
+##  Median :298.0   Mode  :character   STAR  :3322   Median : 0.042371  
+##  Mean   :302.4                                    Mean   : 0.142588  
+##  3rd Qu.:415.0                                    3rd Qu.: 0.092275  
 ##  Max.   :768.0                                    Max.   : 5.353854  
-##      plate           mjd           fiberid      
-##  Min.   : 266   Min.   :51578   Min.   :   1.0  
-##  1st Qu.: 301   1st Qu.:51900   1st Qu.: 191.0  
-##  Median : 441   Median :51997   Median : 354.0  
-##  Mean   :1453   Mean   :52936   Mean   : 355.4  
-##  3rd Qu.:2559   3rd Qu.:54468   3rd Qu.: 512.0  
-##  Max.   :8410   Max.   :57481   Max.   :1000.0
+##      plate           mjd           fiberid     
+##  Min.   : 266   Min.   :51578   Min.   :  1.0  
+##  1st Qu.: 301   1st Qu.:51900   1st Qu.:184.0  
+##  Median : 442   Median :51999   Median :348.0  
+##  Mean   :1465   Mean   :52949   Mean   :351.6  
+##  3rd Qu.:2559   3rd Qu.:54468   3rd Qu.:510.0  
+##  Max.   :8410   Max.   :57481   Max.   :998.0
 ```
 We observe here two different things that the data preparation and exploratory analysis tells us:  
 - The class distribution is not even and this could be solved later using the SMOTE function which equalizes the classes proportion.  
@@ -347,31 +360,31 @@ summary(sky.train.norm) # check the normalization
 ```
 ##        V1               V2                V3               V4        
 ##  Min.   :0.0000   Min.   :0.00000   Min.   :0.0000   Min.   :0.0000  
-##  1st Qu.:0.5891   1st Qu.:0.06565   1st Qu.:0.7834   1st Qu.:0.5769  
-##  Median :0.6812   Median :0.07838   Median :0.8865   Median :0.6762  
-##  Mean   :0.6619   Mean   :0.27619   Mean   :0.8508   Mean   :0.6585  
-##  3rd Qu.:0.7659   3rd Qu.:0.57664   3rd Qu.:0.9484   3rd Qu.:0.7513  
+##  1st Qu.:0.5902   1st Qu.:0.06539   1st Qu.:0.7850   1st Qu.:0.5787  
+##  Median :0.6818   Median :0.07805   Median :0.8869   Median :0.6766  
+##  Mean   :0.6617   Mean   :0.27278   Mean   :0.8518   Mean   :0.6587  
+##  3rd Qu.:0.7650   3rd Qu.:0.54551   3rd Qu.:0.9481   3rd Qu.:0.7503  
 ##  Max.   :1.0000   Max.   :1.00000   Max.   :1.0000   Max.   :1.0000  
 ##        V5               V6               V7               V8        
 ##  Min.   :0.0000   Min.   :0.0000   Min.   :0.0000   Min.   :0.0000  
-##  1st Qu.:0.3023   1st Qu.:0.2406   1st Qu.:0.3576   1st Qu.:0.4022  
-##  Median :0.3582   Median :0.2841   Median :0.4265   Median :0.4058  
-##  Mean   :0.3564   Mean   :0.2857   Mean   :0.4291   Mean   :0.6124  
-##  3rd Qu.:0.4111   3rd Qu.:0.3275   3rd Qu.:0.4931   3rd Qu.:0.9266  
+##  1st Qu.:0.3022   1st Qu.:0.2405   1st Qu.:0.3569   1st Qu.:0.4022  
+##  Median :0.3578   Median :0.2838   Median :0.4256   Median :0.4058  
+##  Mean   :0.3563   Mean   :0.2855   Mean   :0.4285   Mean   :0.6099  
+##  3rd Qu.:0.4109   3rd Qu.:0.3275   3rd Qu.:0.4932   3rd Qu.:0.9266  
 ##  Max.   :1.0000   Max.   :1.0000   Max.   :1.0000   Max.   :1.0000  
 ##        V9           V10              V11              V12           
 ##  Min.   :301   Min.   :0.0000   Min.   :0.0000   Min.   :0.0000000  
-##  1st Qu.:301   1st Qu.:0.2000   1st Qu.:0.2272   1st Qu.:0.0007868  
-##  Median :301   Median :0.6000   Median :0.3791   Median :0.0087359  
-##  Mean   :301   Mean   :0.5333   Mean   :0.3832   Mean   :0.0276068  
-##  3rd Qu.:301   3rd Qu.:0.8000   3rd Qu.:0.5284   3rd Qu.:0.0179494  
+##  1st Qu.:301   1st Qu.:0.2000   1st Qu.:0.2285   1st Qu.:0.0007872  
+##  Median :301   Median :0.6000   Median :0.3791   Median :0.0086800  
+##  Mean   :301   Mean   :0.5259   Mean   :0.3849   Mean   :0.0273843  
+##  3rd Qu.:301   3rd Qu.:0.8000   3rd Qu.:0.5337   3rd Qu.:0.0179940  
 ##  Max.   :301   Max.   :1.0000   Max.   :1.0000   Max.   :1.0000000  
 ##       V13                V14               V15        
 ##  Min.   :0.000000   Min.   :0.00000   Min.   :0.0000  
-##  1st Qu.:0.004298   1st Qu.:0.05455   1st Qu.:0.1902  
-##  Median :0.021488   Median :0.07098   Median :0.3534  
-##  Mean   :0.145786   Mean   :0.22998   Mean   :0.3548  
-##  3rd Qu.:0.281557   3rd Qu.:0.48958   3rd Qu.:0.5115  
+##  1st Qu.:0.004298   1st Qu.:0.05455   1st Qu.:0.1836  
+##  Median :0.021611   Median :0.07132   Median :0.3480  
+##  Mean   :0.147193   Mean   :0.23222   Mean   :0.3517  
+##  3rd Qu.:0.281557   3rd Qu.:0.48958   3rd Qu.:0.5105  
 ##  Max.   :1.000000   Max.   :1.00000   Max.   :1.0000
 ```
 Tidying the normalized data:
@@ -387,15 +400,15 @@ head(sky.train.norm, 2)
 ```
 
 ```
-##          ra        dec         u         g         r         i         z
-## 1 0.6939242 0.07397909 0.9809931 0.6114374 0.2841766 0.2190807 0.3222841
-## 2 0.6945136 0.07447276 0.9672155 0.7770617 0.4076395 0.3166570 0.4627861
-##         run rerun camcol    field     redshift       plate       mjd
-## 1 0.4021739   301    0.6 0.338177 0.0007702743 0.373280943 0.5664916
-## 2 0.4021739   301    0.6 0.339498 0.0237490694 0.002578585 0.0753854
-##     fiberid               objid           specobjid  class
-## 1 0.4904905 1237648704577142822 3722360139651588096   STAR
-## 2 0.5125125 1237648704577208477  323274319570429952 GALAXY
+##          ra        dec         u         g         r        i         z
+## 1 0.6940976 0.07464221 0.8582499 0.6362373 0.3431382 0.279811 0.4260215
+## 2 0.6951749 0.07348733 0.7224990 0.5480751 0.3014897 0.248584 0.3826164
+##         run rerun camcol    field     redshift       plate         mjd
+## 1 0.4021739   301    0.6 0.338177 0.0007616973 0.006999018 0.006267999
+## 2 0.4021739   301    0.6 0.340819 0.0007513008 0.373280943 0.566491614
+##     fiberid               objid           specobjid class
+## 1 0.5416249 1237648704577142859  363814405953054720  STAR
+## 2 0.5105316 1237648704577273907 3722365362331820032  STAR
 ```
 plotting with the normalized data:  
 
@@ -459,16 +472,16 @@ summary(PCA.sky.train)
 
 ```
 ## Importance of components:
-##                              PC1       PC2       PC3      PC4      PC5
-## Standard deviation     2324.3892 308.30502 277.45749 195.6791 140.3412
-## Proportion of Variance    0.9589   0.01687   0.01366   0.0068   0.0035
-## Cumulative Proportion     0.9589   0.97577   0.98944   0.9962   0.9997
-##                             PC6      PC7   PC8   PC9   PC10   PC11   PC12
-## Standard deviation     36.34377 14.05613 2.217 1.391 0.6682 0.3439 0.1649
-## Proportion of Variance  0.00023  0.00004 0.000 0.000 0.0000 0.0000 0.0000
-## Cumulative Proportion   0.99996  1.00000 1.000 1.000 1.0000 1.0000 1.0000
+##                              PC1       PC2       PC3      PC4       PC5
+## Standard deviation     2323.0608 310.08422 277.55847 197.0730 140.06275
+## Proportion of Variance    0.9586   0.01708   0.01368   0.0069   0.00348
+## Cumulative Proportion     0.9586   0.97566   0.98935   0.9962   0.99973
+##                             PC6      PC7   PC8   PC9 PC10   PC11   PC12
+## Standard deviation     36.31792 13.92237 2.208 1.388 0.66 0.3447 0.1537
+## Proportion of Variance  0.00023  0.00003 0.000 0.000 0.00 0.0000 0.0000
+## Cumulative Proportion   0.99996  1.00000 1.000 1.000 1.00 1.0000 1.0000
 ##                          PC13    PC14
-## Standard deviation     0.1343 0.08122
+## Standard deviation     0.1354 0.08124
 ## Proportion of Variance 0.0000 0.00000
 ## Cumulative Proportion  1.0000 1.00000
 ```
@@ -489,22 +502,22 @@ imp.df %>% knitr::kable(caption = "Importance")
 
 Table: Importance
 
-features           MDG
----------  -----------
-redshift    2227.91988
-plate        726.91154
-mjd          457.11171
-z            290.15545
-i            254.03472
-r            203.28377
-g            179.68961
-u            108.07015
-ra            25.94476
-fiberid       25.06785
-dec           24.61466
-field         21.55145
-run           13.97996
-camcol         6.76516
+features            MDG
+---------  ------------
+redshift    2198.928548
+plate        625.431866
+mjd          570.201435
+z            272.272961
+i            245.159960
+r            224.532084
+g            187.561329
+u            112.309808
+fiberid       28.234315
+ra            26.911081
+dec           25.798185
+field         23.307735
+run           16.300995
+camcol         6.936498
 
 ## 6 Defining the dataset for the model:
 ### 6.1 Features Selection  
@@ -643,20 +656,20 @@ summary(results)
 ## Number of resamples: 20 
 ## 
 ## Accuracy 
-##        Min.   1st Qu.    Median      Mean   3rd Qu.      Max. NA's
-## lda  0.8950 0.9100000 0.9162500 0.9195171 0.9262500 0.9548872    0
-## cart 0.9825 0.9868750 0.9887375 0.9893762 0.9931250 0.9975062    0
-## knn  0.9175 0.9400000 0.9475000 0.9458812 0.9532138 0.9625000    0
-## svm  0.9575 0.9718750 0.9725000 0.9743794 0.9800000 0.9899749    0
-## rf   0.9825 0.9899937 0.9925000 0.9918756 0.9950000 0.9975062    0
+##        Min.   1st Qu.    Median      Mean 3rd Qu.      Max. NA's
+## lda  0.9000 0.9126637 0.9175000 0.9193884 0.92375 0.9425000    0
+## cart 0.9750 0.9843750 0.9875000 0.9877528 0.99250 0.9974937    0
+## knn  0.9325 0.9437500 0.9512500 0.9486321 0.95500 0.9625000    0
+## svm  0.9575 0.9718750 0.9762500 0.9745034 0.98000 0.9875000    0
+## rf   0.9800 0.9900000 0.9912625 0.9915016 0.99500 0.9975000    0
 ## 
 ## Kappa 
 ##           Min.   1st Qu.    Median      Mean   3rd Qu.      Max. NA's
-## lda  0.8143810 0.8403909 0.8510749 0.8571316 0.8684659 0.9203434    0
-## cart 0.9692633 0.9769201 0.9802139 0.9813341 0.9879674 0.9956218    0
-## knn  0.8560052 0.8951720 0.9081886 0.9052629 0.9180869 0.9345635    0
-## svm  0.9254893 0.9505588 0.9519440 0.9550926 0.9649885 0.9824272    0
-## rf   0.9692720 0.9823488 0.9868163 0.9857321 0.9912365 0.9956313    0
+## lda  0.8208287 0.8448042 0.8541122 0.8569261 0.8646839 0.8983425    0
+## cart 0.9557972 0.9724931 0.9780355 0.9784554 0.9868669 0.9956020    0
+## knn  0.8813552 0.9011663 0.9148438 0.9101043 0.9213392 0.9345178    0
+## svm  0.9253535 0.9507732 0.9582954 0.9553256 0.9649156 0.9780278    0
+## rf   0.9646893 0.9824316 0.9846596 0.9850665 0.9912157 0.9956262    0
 ```
 
 Compare the accuracy of the models:  
@@ -684,12 +697,12 @@ print(fit.rf)
 ## Resampling results across tuning parameters:
 ## 
 ##   mtry  Accuracy   Kappa    
-##   2     0.9896262  0.9817642
-##   4     0.9917503  0.9855026
-##   6     0.9918756  0.9857321
+##   2     0.9896272  0.9817734
+##   4     0.9915016  0.9850665
+##   6     0.9912516  0.9846349
 ## 
 ## Accuracy was used to select the optimal model using the largest value.
-## The final value used for the model was mtry = 6.
+## The final value used for the model was mtry = 4.
 ```
 The Accuracy vs. predictors and variable importance:  
 
@@ -728,31 +741,31 @@ caret::confusionMatrix(predictions, validation.model$class)
 ## 
 ##           Reference
 ## Prediction GALAXY QSO STAR
-##     GALAXY    991   4    2
-##     QSO         7 166    0
-##     STAR        1   0  828
+##     GALAXY    991   7    0
+##     QSO         8 163    0
+##     STAR        0   0  830
 ## 
 ## Overall Statistics
 ##                                           
-##                Accuracy : 0.993           
-##                  95% CI : (0.9883, 0.9962)
+##                Accuracy : 0.9925          
+##                  95% CI : (0.9877, 0.9958)
 ##     No Information Rate : 0.4997          
 ##     P-Value [Acc > NIR] : < 2.2e-16       
 ##                                           
-##                   Kappa : 0.9877          
+##                   Kappa : 0.9869          
 ##  Mcnemar's Test P-Value : NA              
 ## 
 ## Statistics by Class:
 ## 
 ##                      Class: GALAXY Class: QSO Class: STAR
-## Sensitivity                 0.9920    0.97647      0.9976
-## Specificity                 0.9940    0.99617      0.9991
-## Pos Pred Value              0.9940    0.95954      0.9988
-## Neg Pred Value              0.9920    0.99781      0.9983
+## Sensitivity                 0.9920    0.95882      1.0000
+## Specificity                 0.9930    0.99563      1.0000
+## Pos Pred Value              0.9930    0.95322      1.0000
+## Neg Pred Value              0.9920    0.99617      1.0000
 ## Prevalence                  0.4997    0.08504      0.4152
-## Detection Rate              0.4957    0.08304      0.4142
-## Detection Prevalence        0.4987    0.08654      0.4147
-## Balanced Accuracy           0.9930    0.98632      0.9984
+## Detection Rate              0.4957    0.08154      0.4152
+## Detection Prevalence        0.4992    0.08554      0.4152
+## Balanced Accuracy           0.9925    0.97722      1.0000
 ```
 
 ## 9 Results and Conclusion

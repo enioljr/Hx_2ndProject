@@ -7,6 +7,16 @@
 #The url can be found here: https://www.kaggle.com/lucidlenn/sloan-digital-sky-survey/version/1
 
 # 1.2 Libraries used
+if(!require(tidyverse)) install.packages("tidyverse", repos = "http://cran.us.r-project.org")
+if(!require(caret)) install.packages("caret", repos = "http://cran.us.r-project.org")
+if(!require(data.table)) install.packages("data.table", repos = "http://cran.us.r-project.org")
+if(!require(ggplot2)) install.packages("ggplot2", repos = "http://cran.us.r-project.org")
+if(!require(ggcorrplot)) install.packages("ggcorrplot", repos = "http://cran.us.r-project.org")
+if(!require(RSNNS)) install.packages("RSNNS", repos = "http://cran.us.r-project.org")
+if(!require(randomForest)) install.packages("randomForest", repos = "http://cran.us.r-project.org")
+if(!require(kernlab)) install.packages("kernlab", repos = "http://cran.us.r-project.org")
+if(!require(cowplot)) install.packages("cowplot", repos = "http://cran.us.r-project.org")
+
 library(tidyverse)
 library(data.table)
 library(caret)
@@ -14,7 +24,6 @@ library(ggplot2)
 library(ggcorrplot)
 library(RSNNS)
 library(randomForest)
-library(ggcorrplot)
 library(kernlab)
 library(cowplot)
 
