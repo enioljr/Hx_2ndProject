@@ -1,0 +1,8 @@
+"0","set.seed(2205)"
+"0","rf.sky.train <- randomForest(class ~ ., data = sky.train[, -c(1, 10, 13)])"
+"0","imp.df <- importance(rf.sky.train) # importance of the features"
+"0","imp.df <- data.frame(features = row.names(imp.df), MDG = imp.df[,1])"
+"0","imp.df <- imp.df[order(imp.df$MDG, decreasing = TRUE),]"
+"0","ggplot(imp.df, aes(x = reorder(features, MDG), y = MDG, fill = MDG)) +"
+"0","  geom_bar(stat = ""identity"") + labs (x = ""Features"", y = ""Mean Decrease Gini (MDG)"") +"
+"0","  coord_flip()"

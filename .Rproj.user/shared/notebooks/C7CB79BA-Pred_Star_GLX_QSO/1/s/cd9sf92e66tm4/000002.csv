@@ -1,0 +1,5 @@
+"0","sky.model <- sky.train[, -c(1, 10, 13)]"
+"0","corr <- round(cor(sky.model[, -14], use = ""complete.obs""), 2)"
+"2","Error in cor(sky.model[, -14], use = ""complete.obs"") : 
+  'x' must be numeric
+"

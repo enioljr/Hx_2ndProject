@@ -1,0 +1,6 @@
+"0","plot_grid(ggplot(sky.train.norm, aes(z, redshift, col = class)) + geom_point() + theme1, "
+"0","          ggplot(sky.train.norm, aes(i, redshift, col = class)) + geom_point() + theme1,"
+"0","          ggplot(sky.train.norm, aes(g, redshift, col = class)) + geom_point() + theme1,"
+"0","          ggplot(sky.train.norm, aes(r, redshift, col = class)) + geom_point() + theme1,"
+"0","          ggplot(sky.train.norm, aes(u, redshift, col = class)) + geom_point() + theme1,"
+"0","          align = ""h"") # Thuann_Gunn group"
