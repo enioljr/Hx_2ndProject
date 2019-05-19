@@ -206,11 +206,6 @@ theme1 <- theme(axis.text.x = element_text(size = 8, angle = 90, hjust = 0.5, vj
 # a different visualization
 # about the interaction between "redshift" and the other selected features
 # (note: for better visualization we used the normalized dataset to make it easier the comparison)
-theme1<- theme(axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.5), 
-               legend.position="top")
-
-theme2<- theme(axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.5), 
-               legend.position="none")
 plot_grid(ggplot(sky.train.norm, aes(z, redshift, col = class)) + geom_point() + theme1, 
           ggplot(sky.train.norm, aes(i, redshift, col = class)) + geom_point() + theme1,
           ggplot(sky.train.norm, aes(g, redshift, col = class)) + geom_point() + theme1,
@@ -293,7 +288,6 @@ caret::confusionMatrix(predictions, validation.model$class) # 0.992
 #QSO         6 166    0
 #STAR        1   1  825
 
-# The difference between the training and test (validation) sets is 0.088%
 # The conclusion we came to is that the validation set cases are not so hard to predict and the
 # data is well clustered around the classes.
 # We tried to discard the "redshift"feature in order to maximize the weight of the other features
@@ -307,4 +301,4 @@ caret::confusionMatrix(predictions, validation.model$class) # 0.992
 # MacBook Pro
 # 2.4 GHz Intel Core i5
 # 8 GB 1600 MHz DDR3
-# Intel Iris 1536 MB
+# Intel Iris 1536 MBadding a line
